@@ -13,7 +13,6 @@ function Meals({route, navigation}) {
   const {loading, error, data} = useFetch(
     `${Config.API_URL}filter.php?c=${strCategory}`,
   );
-  // `${Config.API_URL}filter.php?c=${strCategory}`,
 
   const handleMealSelect = idMeal => {
     navigation.navigate('Details', {idMeal});
@@ -21,6 +20,7 @@ function Meals({route, navigation}) {
   const renderMeal = ({item}) => (
     <MealCard meal={item} onSelect={() => handleMealSelect(item.idMeal)} />
   );
+
   if (loading) {
     // return <Loading />;
     console.log('loading');
