@@ -1,13 +1,15 @@
-import React, {createFactory} from 'react';
-import {View, Text, Image} from 'react-native';
+import React from 'react';
+import {View, Text, Image, TouchableWithoutFeedback} from 'react-native';
 import styles from './CategoryCard.syles';
 
-const CategoryCard = ({category}) => {
+const CategoryCard = ({category, onSelect}) => {
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={{uri: category.strCategoryThumb}} />
-      <Text style={styles.title}>{category.strCategory}</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={onSelect}>
+      <View style={styles.container}>
+        <Image style={styles.image} source={{uri: category.strCategoryThumb}} />
+        <Text style={styles.title}>{category.strCategory}</Text>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 export default CategoryCard;

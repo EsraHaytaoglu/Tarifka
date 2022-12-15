@@ -9,12 +9,13 @@ function useFetch(url) {
   const fetchData = async () => {
     try {
       const {data: responseData} = await axios.get(url);
-      setData(responseData.categories);
+      setData(responseData);
       console.log(data);
       setLoading(false);
     } catch (err) {
       setLoading(false);
       setError(err.message);
+      console.log(err);
     }
   };
   useEffect(() => {

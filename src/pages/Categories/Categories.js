@@ -1,29 +1,34 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, Button, FlatList, ActivityIndicator} from 'react-native';
+import React from 'react';
+import {View, FlatList} from 'react-native';
 import styles from './Categories.style';
 import Config from 'react-native-config';
-import axios from 'axios';
 import CategoryCard from '../../components/Category/CategoryCard';
 import useFetch from '../../hooks/useFetch';
+import Loading from '../../components/Loading/Loading';
+import Error from '../../components/Error/Error';
 
-function Categories(props) {
-  console.log(Config.API_URL);
-  const {loading, data, error} = useFetch(Config.API_URL);
-  function navigateToPage() {
-    props.navigation.navigate('Meals');
-  }
-  const renderCategory = ({item}) => <CategoryCard category={item} />;
+function Categories({navigation}) {
+  const {loading, data, error} = useFetch(Config.API_URL + 'categories.php');
+
+  const handleCategorySelect = strCategory => {
+    navigation.navigate('Meals', {strCategory});
+  };
+  const renderCategory = ({item}) => (
+    <CategoryCard
+      category={item}
+      onSelect={() => handleCategorySelect(item.strCategory)}
+    />
+  );
 
   if (loading) {
-    return <ActivityIndicator size="large" />;
+    return <Loading />;
   }
   if (error) {
-    return <Text>{error}</Text>;
+    return <Error />;
   }
   return (
     <View style={styles.container}>
-      <FlatList data={data} renderItem={renderCategory} />
-      <Button title="Go to Meal" onPress={navigateToPage} />
+      <FlatList data={data.categories} renderItem={renderCategory} />
     </View>
   );
 }
